@@ -13,9 +13,10 @@ RUN apt-get install -qy git-core php5-common php5-cli php5-curl php5-imap php5-m
 RUN git config --global user.name "PHPCI"
 RUN git config --global user.email "hello@php.ci"
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-RUN composer install
-
 ADD ./ /phpci
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+RUN cd /phpci && composer install
+
 
 CMD /phpci/daemonise phpci:daemonise
