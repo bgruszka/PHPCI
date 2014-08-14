@@ -7,11 +7,14 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C E5267A6C 0
 RUN apt-get update
 
 # Install PHP:
-RUN apt-get install -qy git-core php5-common php5-cli php5-curl php5-imap php5-mcrypt php5-mysqlnd
+RUN apt-get install -qy git-core php5-common php5-cli php5-curl php5-imap php5-mcrypt php5-mysqlnd curl
 
 # Give Git some fake user details to prevent it asking when trying to test merges:
 RUN git config --global user.name "PHPCI"
 RUN git config --global user.email "hello@php.ci"
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+RUN composer install
 
 ADD ./ /phpci
 
